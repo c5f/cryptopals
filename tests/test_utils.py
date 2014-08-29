@@ -19,6 +19,32 @@ class TestHexToBase64(unittest.TestCase):
     def setUp(self):
         pass
 
+    def test_invalid_input(self):
+        """ There is no easy way to invert character sets in Python like there 
+            is in C, and building an array of bytes-that-are-not-hexadecimal 
+            seems ridiculous.
+
+            Instead we build a list of the byte-values of characters that are 
+            not hexadecmial characters and test against them.
+
+            Cryptopals mentioned that we should always be working with raw 
+            bytes, so it is safe to assume that (in the context of this 
+            project) we should never have unicode characters making it into the 
+            utils.hex_to_base64 method.
+        """
+
+        # TODO: Build a list of ASCII values that are not hexadecimal values.
+        invalid_list = range(0, 128)
+
+        self.fail('not yet implemented')
+
+        for value in invalid_list:
+            # TODO: Convert each value to a byte and build a string.
+            hex_string = "%s" % "don't use %s"
+
+            with self.assertRaises(ValueError):
+                hex_to_base64(hex_string)
+
     def test_small_strings(self):
         hex_string = ''
         base64_string = ''
