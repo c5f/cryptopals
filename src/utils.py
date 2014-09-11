@@ -27,5 +27,50 @@ def hex_to_base64(hex_string):
 
         http://en.wikipedia.org/wiki/Base64
     """
-    
-    return "plugh"
+
+    # Validate input
+    for char in hex_string:
+        if char not in HEX_TABLE:
+            raise ValueError('found %c in hexadecimal string input' % char)
+
+    # Build a list of the hex bytes
+    size = len(hex_string)
+    bytes = map(lambda x: int(x, base=16), hex_string)
+    base_64 = list()
+
+    for index in range(2, size - (size % 3), 3):
+
+        """ Grab three bytes to compute into two base64 characters:
+
+            bytes:  |_______|_______|_______|
+            bits:   |_|_|_|_|_|_|_|_|_|_|_|_|
+            base64: |___________|___________|
+
+        """
+
+        base_64.append(bytes[index - 2] << 2 | bytes[index - 1] >> 2)
+        base_64.append((bytes[index - 1] & 3) << 4 | bytes[index])
+
+    if size % 3 == 1:
+        """ One trailing byte:
+
+            bytes:  |_______|
+            bits:   |_|_|_|_|0|0|
+            base64: |___________|
+        """
+
+        base_64.append(bytes[size - 1] << 2)
+
+        
+    elif size % 3 == 2:
+        """ Two trailing bytes:
+
+            bytes:  |_______|_______|
+            bits:   |_|_|_|_|_|_|_|_|0|0|0|0|
+            base64: |___________|___________|
+        """
+
+        base_64.append(bytes[size - 2] << 2 | bytes[size - 1] >> 2)
+        base_64.append((bytes[size - 1] & 3) << 4)
+
+    return ''.join(map(lambda index: BASE_64_TABLE[index], base_64))

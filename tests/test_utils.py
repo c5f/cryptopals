@@ -2,6 +2,7 @@ import unittest
 
 from src.utils import *
 
+
 def suite():
     """ This method returns a suite of unit tests for this module.  When adding 
         new test cases, load the tests into the test_suites list.
@@ -12,12 +13,15 @@ def suite():
 
     return unittest.TestSuite(test_suites)
 
+
 class TestHexToBase64(unittest.TestCase):
     """ This test case tests converting hexadecimal strings to base64 strings.
     """
 
+
     def setUp(self):
         pass
+
 
     def test_invalid_input(self):
         """ There is no easy way to invert character sets in Python like there 
@@ -33,33 +37,20 @@ class TestHexToBase64(unittest.TestCase):
             utils.hex_to_base64 method.
         """
 
-        # TODO: Build a list of ASCII values that are not hexadecimal values.
-        invalid_list = range(0, 128)
+        hex_characters = range(48, 58) + range(97, 103)
+        readable_characters = range(32, 127)
+        
+        # Build a list of ASCII values that are not hexadecimal values.
+        invalid_characters = [chr(c) for c in readable_characters 
+            if c not in hex_characters]
 
-        self.fail('not yet implemented')
-
-        for value in invalid_list:
-            # TODO: Convert each value to a byte and build a string.
-            hex_string = "%s" % "don't use %s"
-
+        for character in invalid_characters:
             with self.assertRaises(ValueError):
-                hex_to_base64(hex_string)
+                hex_to_base64(character)
 
-    def test_small_strings(self):
-        hex_string = ''
-        base64_string = ''
 
-        self.fail('not yet implemented')
+    # TODO: Write more tests
 
-        self.assertEquals(hex_to_base64(hex_string), base64_string)
-
-    def test_wikipedia_example_padding(self):
-        hex_string = ''
-        base64_string = ''
-
-        self.fail('not yet implemented')
-
-        self.assertEquals(hex_to_base64(hex_string), base64_string)
 
     def test_matasano_answer(self):
         hex_string = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d'

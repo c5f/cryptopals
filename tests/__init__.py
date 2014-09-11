@@ -1,6 +1,6 @@
 # import unittest
 
-# from tests.utils_tests import *
+# from tests.test_utils import *
 
 # # Add new test_module.suite() calls here.
 # utils_suite = utils_tests.suite()
